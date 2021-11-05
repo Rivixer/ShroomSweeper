@@ -14,6 +14,7 @@ class Board {
   void initialiseGame() {
     _generateBoard();
     _generateBombs();
+    _calculateBombsAround();
   }
 
   void _generateBoard() {
@@ -35,6 +36,39 @@ class Board {
 
       _board![x][y].hasBomb = true;
       i++;
+    }
+  }
+
+  void _calculateBombsAround() {
+    for (int x = 0; x < _weight; x++) {
+      for (int y = 0; y < _height; y++) {
+        if (x < _weight - 1 &&
+            y < _height - 1 &&
+            _board![x + 1][y + 1].hasBomb) {
+          _board![x][y].bombsAround++;
+        }
+        if (x < _weight - 1 && _board![x + 1][y].hasBomb) {
+          _board![x][y].bombsAround++;
+        }
+        if (x < _weight - 1 && y > 0 && _board![x + 1][y - 1].hasBomb) {
+          _board![x][y].bombsAround++;
+        }
+        if (y < _height - 1 && _board![x][y + 1].hasBomb) {
+          _board![x][y].bombsAround++;
+        }
+        if (y > 0 && _board![x][y - 1].hasBomb) {
+          _board![x][y].bombsAround++;
+        }
+        if (x > 0 && y < _height - 1 && _board![x - 1][y + 1].hasBomb) {
+          _board![x][y].bombsAround++;
+        }
+        if (x > 0 && y > 0 && _board![x - 1][y - 1].hasBomb) {
+          _board![x][y].bombsAround++;
+        }
+        if (x > 0 && _board![x - 1][y].hasBomb) {
+          _board![x][y].bombsAround++;
+        }
+      }
     }
   }
 }
