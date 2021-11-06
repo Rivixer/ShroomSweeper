@@ -111,8 +111,16 @@ class Board {
     discoverBoard(column - 1, row - 1);
   }
 
+  void setFlag(int column, int row) {
+    _board![row][column].flagged = !_board![row][column].flagged;
+  }
+
   Image getImage(int column, row) {
-    if (!_board![row][column].clicked) {
+    var boardField = _board![row][column];
+    if (!boardField.clicked) {
+      if (boardField.flagged) {
+        return Image.asset('lib/images/flag.png');
+      }
       return Image.asset('lib/images/unclicked.png');
     }
     if (boardField.hasBomb) {
