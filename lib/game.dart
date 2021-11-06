@@ -63,7 +63,6 @@ class _GameState extends State<Game> {
               itemBuilder: (context, position) {
                 int column = position % columnsNumber;
                 int row = position ~/ columnsNumber;
-                print('$column $row $position');
                 Image image = board.getImage(column, row);
 
                 return InkWell(
