@@ -4,104 +4,119 @@ import 'package:flutter/material.dart';
 import 'board_field.dart';
 
 class Board {
-  final int _height;
-  final int _weight;
-  final int _bombs;
-  List<List<BoardField>>? _board;
+  final int _columnsNumber;
+  final int _rowsNumber;
+  final int _bombsNumber;
+  late int _noClickedFields;
+  //int flaggedFields = 0;
   bool _bombsGenerated = false;
+  List<List<BoardField>>? _board;
 
-  Board([this._height = 10, this._weight = 10, this._bombs = 10]) {
+  Board(this._rowsNumber, this._columnsNumber, this._bombsNumber) {
+    _noClickedFields = _rowsNumber * _columnsNumber;
     _generateBoard();
   }
 
-  void handleClick(int x, int y) => _board![x][y].clicked = true;
+  bool isDefeat(int column, int row) => _board![row][column].hasBomb;
 
-  bool hasBomb(int x, int y) => _board![x][y].hasBomb;
-
-  void _generateBoard() {
-    _board = List.generate(
-        _height, (_) => (List.generate(_weight, (_) => BoardField())));
+  bool isWin(int column, int row) {
+    return _noClickedFields <= _bombsNumber;
   }
 
-  void _generateBombs(int xClicked, int yClicked) {
+  void _generateBoard() {
+    _board = List.generate(_rowsNumber,
+        (_) => (List.generate(_columnsNumber, (_) => BoardField())));
+  }
+
+  void _generateBombs(int columnClicked, int rowClicked) {
     var random = Random();
 
-    int i = 0;
-    while (i < _bombs) {
-      int x = random.nextInt(_weight);
-      int y = random.nextInt(_height);
+    int bombsPlaced = 0;
+    while (bombsPlaced < _bombsNumber) {
+      int column = random.nextInt(_columnsNumber);
+      int row = random.nextInt(_rowsNumber);
 
-      if (_board![x][y].hasBomb || x == xClicked || y == yClicked) {
+      if (_board![row][column].hasBomb ||
+          column == columnClicked ||
+          row == rowClicked) {
         continue;
       }
 
-      _board![x][y].hasBomb = true;
-      i++;
+      _board![row][column].hasBomb = true;
+      bombsPlaced++;
     }
     _bombsGenerated = true;
   }
 
   void _calculateBombsAround() {
-    for (int x = 0; x < _weight; x++) {
-      for (int y = 0; y < _height; y++) {
-        if (x < _weight - 1 &&
-            y < _height - 1 &&
-            _board![x + 1][y + 1].hasBomb) {
-          _board![x][y].bombsAround++;
+    for (int row = 0; row < _rowsNumber; row++) {
+      for (int column = 0; column < _columnsNumber; column++) {
+        if (row < _columnsNumber - 1 &&
+            column < _rowsNumber - 1 &&
+            _board![row + 1][column + 1].hasBomb) {
+          _board![row][column].bombsAround++;
         }
-        if (x < _weight - 1 && _board![x + 1][y].hasBomb) {
-          _board![x][y].bombsAround++;
+        if (row < _columnsNumber - 1 && _board![row + 1][column].hasBomb) {
+          _board![row][column].bombsAround++;
         }
-        if (x < _weight - 1 && y > 0 && _board![x + 1][y - 1].hasBomb) {
-          _board![x][y].bombsAround++;
+        if (row < _columnsNumber - 1 &&
+            column > 0 &&
+            _board![row + 1][column - 1].hasBomb) {
+          _board![row][column].bombsAround++;
         }
-        if (y < _height - 1 && _board![x][y + 1].hasBomb) {
-          _board![x][y].bombsAround++;
+        if (column < _rowsNumber - 1 && _board![row][column + 1].hasBomb) {
+          _board![row][column].bombsAround++;
         }
-        if (y > 0 && _board![x][y - 1].hasBomb) {
-          _board![x][y].bombsAround++;
+        if (column > 0 && _board![row][column - 1].hasBomb) {
+          _board![row][column].bombsAround++;
         }
-        if (x > 0 && y < _height - 1 && _board![x - 1][y + 1].hasBomb) {
-          _board![x][y].bombsAround++;
+        if (row > 0 &&
+            column < _rowsNumber - 1 &&
+            _board![row - 1][column + 1].hasBomb) {
+          _board![row][column].bombsAround++;
         }
-        if (x > 0 && y > 0 && _board![x - 1][y - 1].hasBomb) {
-          _board![x][y].bombsAround++;
+        if (row > 0 && column > 0 && _board![row - 1][column - 1].hasBomb) {
+          _board![row][column].bombsAround++;
         }
-        if (x > 0 && _board![x - 1][y].hasBomb) {
-          _board![x][y].bombsAround++;
+        if (row > 0 && _board![row - 1][column].hasBomb) {
+          _board![row][column].bombsAround++;
         }
       }
     }
   }
 
-  void discoverBoard(int x, int y) {
+  void discoverBoard(int column, int row) {
     if (!_bombsGenerated) {
-      _generateBombs(x, y);
+      _generateBombs(column, row);
       _calculateBombsAround();
     }
-    if (x < 0 || x == _weight || y < 0 || y == _height) return;
-    if (_board![x][y].hasBomb) return;
-    if (_board![x][y].clicked) return;
-    _board![x][y].clicked = true;
-    if (_board![x][y].bombsAround > 0) return;
-    discoverBoard(x + 1, y + 1);
-    discoverBoard(x + 1, y);
-    discoverBoard(x + 1, y - 1);
-    discoverBoard(x, y + 1);
-    discoverBoard(x, y - 1);
-    discoverBoard(x - 1, y + 1);
-    discoverBoard(x - 1, y);
-    discoverBoard(x - 1, y - 1);
+    if (column < 0 ||
+        column == _columnsNumber ||
+        row < 0 ||
+        row == _rowsNumber) {
+      return;
+    }
+    if (_board![row][column].clicked) return;
+    _board![row][column].clicked = true;
+    if (_board![row][column].bombsAround > 0) return;
+    discoverBoard(column + 1, row + 1);
+    discoverBoard(column + 1, row);
+    discoverBoard(column + 1, row - 1);
+    discoverBoard(column, row + 1);
+    discoverBoard(column, row - 1);
+    discoverBoard(column - 1, row + 1);
+    discoverBoard(column - 1, row);
+    discoverBoard(column - 1, row - 1);
   }
 
-  Image getImage(int x, int y) {
-    if (!_board![x][y].clicked) {
+  Image getImage(int column, row) {
+    if (!_board![row][column].clicked) {
       return Image.asset('lib/images/unclicked.png');
     }
-    if (_board![x][y].hasBomb) {
+    if (_board![row][column].hasBomb) {
       return Image.asset('lib/images/red_toadstool.png');
     }
-    switch (_board![x][y].bombsAround) {
+    switch (_board![row][column].bombsAround) {
       case 1:
         return Image.asset('lib/images/1.png');
       case 2:

@@ -7,14 +7,20 @@ class Game extends StatefulWidget {
 }
 
 class _GameState extends State<Game> {
-  int height = 10;
-  int weight = 10;
-  int bombs = 10;
-  var board = Board();
+  int columnsNumber = 10;
+  int rowsNumber = 10;
+  int bombsNumber = 10;
+  late Board board;
 
   void _initialiseGame() {
-    board = Board();
+    board = Board(columnsNumber, rowsNumber, bombsNumber);
     setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _initialiseGame();
   }
 
   @override
@@ -47,33 +53,34 @@ class _GameState extends State<Game> {
             ),
           ),
           GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: height,
-            ),
-            itemBuilder: (context, position) {
-              int x = position ~/ weight;
-              int y = position % height;
-              Image image = board.getImage(x, y);
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: rowsNumber,
+              ),
+              itemBuilder: (context, position) {
+                int column = position ~/ columnsNumber;
+                int row = position % rowsNumber;
+                Image image = board.getImage(column, row);
 
-              return InkWell(
-                onTap: () {
-                  board.discoverBoard(x, y);
-                  setState(() {});
-                  if (board.hasBomb(x, y)) {
-                    _gameOver();
-                  }
-                },
-                splashColor: Colors.grey,
-                child: Container(
-                  color: Colors.grey,
-                  child: image,
-                ),
-              );
-            },
-            itemCount: height * weight,
-          )
+                return InkWell(
+                  onTap: () {
+                    board.discoverBoard(column, row);
+                    if (board.isWin(column, row)) {
+                      print('WIN');
+                    } else if (board.isDefeat(column, row)) {
+                      print('DEFEAT!');
+                    }
+                    setState(() {});
+                  },
+                  splashColor: Colors.grey,
+                  child: Container(
+                    color: Colors.grey,
+                    child: image,
+                  ),
+                );
+              },
+              itemCount: rowsNumber * columnsNumber)
         ],
       ),
       backgroundColor: Colors.brown,
