@@ -42,9 +42,20 @@ class _GameState extends State<Game> {
                     ),
                     backgroundColor: Colors.brown,
                   ),
-                )
+                ),
               ],
             ),
+          ),
+          GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: height,
+            ),
+            itemBuilder: (context, position) {
+              return board.buildBoard(position);
+            },
+            itemCount: height * weight,
           ),
         ],
       ),
