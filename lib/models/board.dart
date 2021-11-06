@@ -8,19 +8,22 @@ class Board {
   final int _weight;
   final int _bombs;
   List<List<BoardField>>? _board;
+  bool _bombsGenerated = false;
 
   Board([this._height = 10, this._weight = 10, this._bombs = 10]) {
     _generateBoard();
-    _generateBombs();
-    _calculateBombsAround();
   }
+
+  void handleClick(int x, int y) => _board![x][y].clicked = true;
+
+  bool hasBomb(int x, int y) => _board![x][y].hasBomb;
 
   void _generateBoard() {
     _board = List.generate(
         _height, (_) => (List.generate(_weight, (_) => BoardField())));
   }
 
-  void _generateBombs() {
+  void _generateBombs(int xClicked, int yClicked) {
     var random = Random();
 
     int i = 0;
@@ -28,13 +31,14 @@ class Board {
       int x = random.nextInt(_weight);
       int y = random.nextInt(_height);
 
-      if (_board![x][y].hasBomb) {
+      if (_board![x][y].hasBomb || x == xClicked || y == yClicked) {
         continue;
       }
 
       _board![x][y].hasBomb = true;
       i++;
     }
+    _bombsGenerated = true;
   }
 
   void _calculateBombsAround() {
@@ -70,23 +74,52 @@ class Board {
     }
   }
 
-  InkWell buildBoard(int position) {
-    int x = position ~/ _weight;
-    int y = position % _height;
-    Image image = Image.asset('lib/images/uncovered.png');
+  void discoverBoard(int x, int y) {
+    if (!_bombsGenerated) {
+      _generateBombs(x, y);
+      _calculateBombsAround();
+    }
+    if (x < 0 || x == _weight || y < 0 || y == _height) return;
+    if (_board![x][y].hasBomb) return;
+    if (_board![x][y].clicked) return;
+    _board![x][y].clicked = true;
+    if (_board![x][y].bombsAround > 0) return;
+    discoverBoard(x + 1, y + 1);
+    discoverBoard(x + 1, y);
+    discoverBoard(x + 1, y - 1);
+    discoverBoard(x, y + 1);
+    discoverBoard(x, y - 1);
+    discoverBoard(x - 1, y + 1);
+    discoverBoard(x - 1, y);
+    discoverBoard(x - 1, y - 1);
+  }
 
-    return InkWell(
-      onTap: () {
-        if (_board![x][y].hasBomb) {
-          //_gameOver();
-          print('GameOver!');
-        }
-      },
-      splashColor: Colors.grey,
-      child: Container(
-        color: Colors.grey,
-        child: image,
-      ),
-    );
+  Image getImage(int x, int y) {
+    if (!_board![x][y].clicked) {
+      return Image.asset('lib/images/unclicked.png');
+    }
+    if (_board![x][y].hasBomb) {
+      return Image.asset('lib/images/red_toadstool.png');
+    }
+    switch (_board![x][y].bombsAround) {
+      case 1:
+        return Image.asset('lib/images/1.png');
+      case 2:
+        return Image.asset('lib/images/1.png');
+      case 3:
+        return Image.asset('lib/images/1.png');
+      case 4:
+        return Image.asset('lib/images/1.png');
+      case 5:
+        return Image.asset('lib/images/1.png');
+      case 6:
+        return Image.asset('lib/images/1.png');
+      case 7:
+        return Image.asset('lib/images/1.png');
+      case 8:
+        return Image.asset('lib/images/1.png');
+      default:
+        return Image.asset('lib/images/clicked.png');
+    }
   }
 }

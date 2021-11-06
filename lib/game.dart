@@ -53,10 +53,27 @@ class _GameState extends State<Game> {
               crossAxisCount: height,
             ),
             itemBuilder: (context, position) {
-              return board.buildBoard(position);
+              int x = position ~/ weight;
+              int y = position % height;
+              Image image = board.getImage(x, y);
+
+              return InkWell(
+                onTap: () {
+                  board.discoverBoard(x, y);
+                  setState(() {});
+                  if (board.hasBomb(x, y)) {
+                    _gameOver();
+                  }
+                },
+                splashColor: Colors.grey,
+                child: Container(
+                  color: Colors.grey,
+                  child: image,
+                ),
+              );
             },
             itemCount: height * weight,
-          ),
+          )
         ],
       ),
       backgroundColor: Colors.brown,
