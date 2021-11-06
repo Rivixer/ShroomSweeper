@@ -76,6 +76,11 @@ class _GameState extends State<Game> {
                     }
                     setState(() {});
                   },
+                  onLongPress: () {
+                    if (!inGame) return;
+                    board.setFlag(column, row);
+                    setState(() {});
+                  },
                   splashColor: Colors.grey,
                   child: Container(
                     color: Colors.grey,
