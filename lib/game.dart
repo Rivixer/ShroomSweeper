@@ -12,6 +12,11 @@ class _GameState extends State<Game> {
   int bombs = 10;
   var board = Board();
 
+  void _initialiseGame() {
+    board = Board();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +31,7 @@ class _GameState extends State<Game> {
               children: [
                 InkWell(
                   onTap: () {
-                    print(':)');
+                    _initialiseGame();
                   },
                   child: const CircleAvatar(
                     radius: 25,
