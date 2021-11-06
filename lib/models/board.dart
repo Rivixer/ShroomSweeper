@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import 'board_field.dart';
 
 class Board {
-  final int _columnsNumber;
   final int _rowsNumber;
+  final int _columnsNumber;
   final int _bombsNumber;
   late int _noClickedFields;
   //int flaggedFields = 0;
   bool _bombsGenerated = false;
   List<List<BoardField>>? _board;
 
-  Board(this._rowsNumber, this._columnsNumber, this._bombsNumber) {
-    _noClickedFields = _rowsNumber * _columnsNumber;
+  Board(this._columnsNumber, this._rowsNumber, this._bombsNumber) {
+    _noClickedFields = _columnsNumber * _rowsNumber;
     _generateBoard();
   }
 
@@ -49,29 +49,29 @@ class Board {
   }
 
   void _calculateBombsAround() {
-    for (int row = 0; row < _rowsNumber; row++) {
-      for (int column = 0; column < _columnsNumber; column++) {
-        if (row < _columnsNumber - 1 &&
-            column < _rowsNumber - 1 &&
+    for (int column = 0; column < _columnsNumber; column++) {
+      for (int row = 0; row < _rowsNumber; row++) {
+        if (row < _rowsNumber - 1 &&
+            column < _columnsNumber - 1 &&
             _board![row + 1][column + 1].hasBomb) {
           _board![row][column].bombsAround++;
         }
-        if (row < _columnsNumber - 1 && _board![row + 1][column].hasBomb) {
+        if (row < _rowsNumber - 1 && _board![row + 1][column].hasBomb) {
           _board![row][column].bombsAround++;
         }
-        if (row < _columnsNumber - 1 &&
+        if (row < _rowsNumber - 1 &&
             column > 0 &&
             _board![row + 1][column - 1].hasBomb) {
           _board![row][column].bombsAround++;
         }
-        if (column < _rowsNumber - 1 && _board![row][column + 1].hasBomb) {
+        if (column < _columnsNumber - 1 && _board![row][column + 1].hasBomb) {
           _board![row][column].bombsAround++;
         }
         if (column > 0 && _board![row][column - 1].hasBomb) {
           _board![row][column].bombsAround++;
         }
         if (row > 0 &&
-            column < _rowsNumber - 1 &&
+            column < _columnsNumber - 1 &&
             _board![row - 1][column + 1].hasBomb) {
           _board![row][column].bombsAround++;
         }

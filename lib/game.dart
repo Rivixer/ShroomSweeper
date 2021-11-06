@@ -56,11 +56,12 @@ class _GameState extends State<Game> {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: rowsNumber,
+                crossAxisCount: columnsNumber,
               ),
               itemBuilder: (context, position) {
-                int column = position ~/ columnsNumber;
-                int row = position % rowsNumber;
+                int column = position % columnsNumber;
+                int row = position ~/ columnsNumber;
+                print('$column $row $position');
                 Image image = board.getImage(column, row);
 
                 return InkWell(
