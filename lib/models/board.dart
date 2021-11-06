@@ -1,4 +1,6 @@
 import 'dart:math';
+import 'package:flutter/material.dart';
+
 import 'board_field.dart';
 
 class Board {
@@ -66,5 +68,25 @@ class Board {
         }
       }
     }
+  }
+
+  InkWell buildBoard(int position) {
+    int x = position ~/ _weight;
+    int y = position % _height;
+    Image image = Image.asset('lib/images/uncovered.png');
+
+    return InkWell(
+      onTap: () {
+        if (_board![x][y].hasBomb) {
+          //_gameOver();
+          print('GameOver!');
+        }
+      },
+      splashColor: Colors.grey,
+      child: Container(
+        color: Colors.grey,
+        child: image,
+      ),
+    );
   }
 }
