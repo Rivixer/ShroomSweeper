@@ -115,26 +115,26 @@ class Board {
     if (!_board![row][column].clicked) {
       return Image.asset('lib/images/unclicked.png');
     }
-    if (_board![row][column].hasBomb) {
+    if (boardField.hasBomb) {
       return Image.asset('lib/images/red_toadstool.png');
     }
-    switch (_board![row][column].bombsAround) {
+    switch (boardField.bombsAround) {
       case 1:
         return Image.asset('lib/images/1.png');
       case 2:
-        return Image.asset('lib/images/1.png');
+        return Image.asset('lib/images/2.png');
       case 3:
-        return Image.asset('lib/images/1.png');
+        return Image.asset('lib/images/3.png');
       case 4:
-        return Image.asset('lib/images/1.png');
+        return Image.asset('lib/images/4p.png');
       case 5:
-        return Image.asset('lib/images/1.png');
+        return Image.asset('lib/images/4p.png');
       case 6:
-        return Image.asset('lib/images/1.png');
+        return Image.asset('lib/images/4p.png');
       case 7:
-        return Image.asset('lib/images/1.png');
+        return Image.asset('lib/images/4p.png');
       case 8:
-        return Image.asset('lib/images/1.png');
+        return Image.asset('lib/images/4p.png');
       default:
         return Image.asset('lib/images/clicked.png');
     }
