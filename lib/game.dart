@@ -10,10 +10,12 @@ class _GameState extends State<Game> {
   int columnsNumber = 10;
   int rowsNumber = 10;
   int bombsNumber = 10;
+  bool inGame = false;
   late Board board;
 
   void _initialiseGame() {
     board = Board(columnsNumber, rowsNumber, bombsNumber);
+    inGame = true;
     setState(() {});
   }
 
@@ -66,6 +68,7 @@ class _GameState extends State<Game> {
 
                 return InkWell(
                   onTap: () {
+                    if (!inGame) return;
                     board.discoverBoard(column, row);
                     if (board.isWin(column, row)) {
                       _handleWin();
@@ -89,8 +92,10 @@ class _GameState extends State<Game> {
   }
 
   void _handleGameOver() {
+    inGame = false;
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) {
         return AlertDialog(
           title: const Text("Przegrywasz!"),
@@ -113,8 +118,10 @@ class _GameState extends State<Game> {
   }
 
   void _handleWin() {
+    inGame = false;
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) {
         return AlertDialog(
           title: const Text("Wygrywasz!"),
