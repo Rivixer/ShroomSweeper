@@ -8,10 +8,6 @@ class Board {
   List<List<BoardField>>? _board;
 
   Board([this._height = 10, this._weight = 10, this._bombs = 10]) {
-    initialiseGame();
-  }
-
-  void initialiseGame() {
     _generateBoard();
     _generateBombs();
     _calculateBombsAround();
