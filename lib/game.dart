@@ -29,7 +29,7 @@ class _GameState extends State<Game> {
       body: ListView(
         children: [
           Container(
-            color: const Color.fromRGBO(0, 255, 255, 0.5),
+            color: const Color.fromRGBO(255, 255, 255, 0.5),
             height: 80.0,
             width: double.infinity,
             child: Row(
@@ -67,9 +67,9 @@ class _GameState extends State<Game> {
                   onTap: () {
                     board.discoverBoard(column, row);
                     if (board.isWin(column, row)) {
-                      print('WIN');
+                      _handleWin();
                     } else if (board.isDefeat(column, row)) {
-                      print('DEFEAT!');
+                      _handleGameOver();
                     }
                     setState(() {});
                   },
@@ -80,14 +80,58 @@ class _GameState extends State<Game> {
                   ),
                 );
               },
-              itemCount: rowsNumber * columnsNumber)
+              itemCount: rowsNumber * columnsNumber),
         ],
       ),
       backgroundColor: Colors.brown,
     );
   }
 
-  void _gameOver() {
-    print('GameOver!');
+  void _handleGameOver() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Przegrywasz!"),
+          actions: <Widget>[
+            TextButton(
+                onPressed: () {
+                  _initialiseGame();
+                  Navigator.pop(context);
+                },
+                child: const Text("Spróbuj ponownie!")),
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text("Ukryj!"))
+          ],
+        );
+      },
+    );
+  }
+
+  void _handleWin() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Wygrywasz!"),
+          actions: <Widget>[
+            TextButton(
+                onPressed: () {
+                  _initialiseGame();
+                  Navigator.pop(context);
+                },
+                child: const Text("Jeszcze raz!")),
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text("Ukryj!"))
+          ],
+        );
+      },
+    );
   }
 }
