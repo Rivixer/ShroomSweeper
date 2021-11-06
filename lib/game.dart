@@ -10,17 +10,15 @@ class _GameState extends State<Game> {
   int height = 10;
   int weight = 10;
   int bombs = 10;
-
   var board = Board();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.brown,
       body: ListView(
         children: [
           Container(
-            color: const Color.fromRGBO(12, 200, 55, 0.9),
+            color: const Color.fromRGBO(0, 255, 255, 0.5),
             height: 80.0,
             width: double.infinity,
             child: Row(
@@ -31,13 +29,13 @@ class _GameState extends State<Game> {
                     print(':)');
                   },
                   child: const CircleAvatar(
-                    backgroundColor: Colors.brown,
                     radius: 25,
                     child: Icon(
                       Icons.tag_faces,
                       color: Colors.yellowAccent,
                       size: 50.0,
                     ),
+                    backgroundColor: Colors.brown,
                   ),
                 )
               ],
@@ -45,6 +43,11 @@ class _GameState extends State<Game> {
           ),
         ],
       ),
+      backgroundColor: Colors.brown,
     );
+  }
+
+  void _gameOver() {
+    print('GameOver!');
   }
 }
