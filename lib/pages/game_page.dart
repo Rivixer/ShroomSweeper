@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:minesweeper/utils/settings.dart';
 import 'package:minesweeper/pages/settings_page.dart';
-import 'models/board.dart';
+import '../models/board.dart';
 
 class Game extends StatefulWidget {
   @override

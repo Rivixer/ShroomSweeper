@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'game.dart';
+import 'pages/game_page.dart';
 import 'utils/settings.dart';
 
 void main() async {
