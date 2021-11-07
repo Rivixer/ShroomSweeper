@@ -37,8 +37,7 @@ class Board {
       int row = random.nextInt(_rowsNumber);
 
       if (_board![row][column].hasBomb ||
-          column == columnClicked ||
-          row == rowClicked) {
+          (column == columnClicked && row == rowClicked)) {
         continue;
       }
 
