@@ -133,15 +133,15 @@ class Board {
       case 3:
         return Image.asset('lib/images/3.png');
       case 4:
-        return Image.asset('lib/images/4p.png');
+        return Image.asset('lib/images/4.png');
       case 5:
-        return Image.asset('lib/images/4p.png');
+        return Image.asset('lib/images/5.png');
       case 6:
-        return Image.asset('lib/images/4p.png');
+        return Image.asset('lib/images/6.png');
       case 7:
-        return Image.asset('lib/images/4p.png');
+        return Image.asset('lib/images/7.png');
       case 8:
-        return Image.asset('lib/images/4p.png');
+        return Image.asset('lib/images/8.png');
       default:
         return Image.asset('lib/images/clicked.png');
     }
