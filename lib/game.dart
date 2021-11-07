@@ -98,10 +98,10 @@ class _GameState extends State<Game> {
                   onTap: () {
                     if (!inGame) return;
                     board.discoverBoard(column, row);
-                    if (board.isWin(column, row)) {
-                      _handleWin();
-                    } else if (board.isDefeat(column, row)) {
+                    if (board.isDefeat(column, row)) {
                       _handleGameOver();
+                    } else if (board.isWin(column, row)) {
+                      _handleWin();
                     }
                     setState(() {});
                   },
