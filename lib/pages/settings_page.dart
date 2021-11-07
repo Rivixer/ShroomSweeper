@@ -36,8 +36,10 @@ class _SettingsPageState extends State<SettingsPage> {
                   () {
                     Settings.setColumns(newValue.toInt());
                     columns = Settings.getColumns();
-                    bombs =
-                        bombs > rows * columns - 2 ? rows * columns - 2 : bombs;
+                    bombs = bombs > rows * columns ~/ 3
+                        ? rows * columns ~/ 3
+                        : bombs;
+                    Settings.setBombs(bombs);
                   },
                 );
               },
@@ -56,7 +58,8 @@ class _SettingsPageState extends State<SettingsPage> {
                   Settings.setRows(newValue.toInt());
                   rows = Settings.getRows();
                   bombs =
-                      bombs > rows * columns - 2 ? rows * columns - 2 : bombs;
+                      bombs > rows * columns ~/ 3 ? rows * columns ~/ 3 : bombs;
+                  Settings.setBombs(bombs);
                 });
               },
               min: 3,
@@ -68,9 +71,9 @@ class _SettingsPageState extends State<SettingsPage> {
               subtitle: Text(bombs.toString()),
             ),
             Slider(
-              value: bombs < rows * columns - 2
+              value: bombs < rows * columns ~/ 3
                   ? bombs.toDouble()
-                  : (rows * columns - 2).toDouble(),
+                  : (rows * columns ~/ 3).toDouble(),
               onChanged: (newValue) {
                 setState(
                   () {
@@ -80,7 +83,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 );
               },
               min: 3,
-              max: (rows * columns - 2).toDouble(),
+              max: (rows * columns ~/ 3).toDouble(),
             ),
           ],
         ),
