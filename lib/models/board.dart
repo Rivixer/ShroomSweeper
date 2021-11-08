@@ -40,11 +40,25 @@ class Board {
           (column == columnClicked && row == rowClicked)) {
         continue;
       }
+      if (_columnsNumber >= 5 && _rowsNumber >= 5) {
+        if (column == columnClicked - 1 || column == columnClicked + 1) {
+          if (row == rowClicked - 1 ||
+              row == rowClicked ||
+              row == rowClicked + 1) {
+            continue;
+          }
+        } else if (column == columnClicked) {
+          if (row == rowClicked - 1 || row == rowClicked + 1) {
+            continue;
+          }
+        }
+      }
 
       _board![row][column].hasBomb = true;
       bombsPlaced++;
+
+      _bombsGenerated = true;
     }
-    _bombsGenerated = true;
   }
 
   void _calculateBombsAround() {
