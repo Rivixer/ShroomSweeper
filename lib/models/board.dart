@@ -128,11 +128,14 @@ class Board {
     _board![row][column].flagged = !_board![row][column].flagged;
   }
 
-  Image getImage(int column, row) {
+  Image getImage(int column, int row, {bool inGame = false}) {
     var boardField = _board![row][column];
     if (!boardField.clicked) {
       if (boardField.flagged) {
         return Image.asset('lib/images/flag.png');
+      }
+      if (!inGame && boardField.hasBomb) {
+        return Image.asset('lib/images/noclickedredtoadstool.png');
       }
       return Image.asset('lib/images/unclicked.png');
     }
