@@ -85,6 +85,47 @@ class _SettingsPageState extends State<SettingsPage> {
               min: 3,
               max: (rows * columns ~/ 3).toDouble(),
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                    onPressed: () {
+                      Settings.setColumns(6);
+                      columns = Settings.getColumns();
+                      Settings.setRows(8);
+                      rows = Settings.getRows();
+                      Settings.setBombs(5);
+                      bombs = Settings.getBombs();
+                      setState(() {});
+                    },
+                    child: const Text("ŁATWY"),
+                    style: const ButtonStyle(
+                      alignment: Alignment.center,
+                    )),
+                ElevatedButton(
+                    onPressed: () {
+                      Settings.setColumns(10);
+                      columns = Settings.getColumns();
+                      Settings.setRows(14);
+                      rows = Settings.getRows();
+                      Settings.setBombs(20);
+                      bombs = Settings.getBombs();
+                      setState(() {});
+                    },
+                    child: const Text("ŚREDNI")),
+                ElevatedButton(
+                    onPressed: () {
+                      Settings.setColumns(12);
+                      columns = Settings.getColumns();
+                      Settings.setRows(21);
+                      rows = Settings.getRows();
+                      Settings.setBombs(45);
+                      bombs = Settings.getBombs();
+                      setState(() {});
+                    },
+                    child: const Text("TRUDNY")),
+              ],
+            ),
           ],
         ),
       ),
