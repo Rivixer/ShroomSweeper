@@ -92,7 +92,7 @@ class _GameState extends State<Game> {
               itemBuilder: (context, position) {
                 int column = position % columns;
                 int row = position ~/ columns;
-                Image image = board.getImage(column, row);
+                    Image image = board.getImage(column, row, inGame: inGame);
 
                 return InkWell(
                   onTap: () {
