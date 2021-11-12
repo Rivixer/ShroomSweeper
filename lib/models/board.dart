@@ -8,7 +8,7 @@ class Board {
   final int _columnsNumber;
   final int _bombsNumber;
   late int _noClickedFields;
-  //int flaggedFields = 0;
+  int flaggedFields = 0;
   bool _bombsGenerated = false;
   List<List<BoardField>>? _board;
 
@@ -126,6 +126,7 @@ class Board {
 
   void setFlag(int column, int row) {
     _board![row][column].flagged = !_board![row][column].flagged;
+    _board![row][column].flagged ? flaggedFields++ : flaggedFields--;
   }
 
   Image getImage(int column, int row, {bool inGame = false}) {

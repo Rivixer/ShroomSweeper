@@ -42,6 +42,30 @@ class _GameState extends State<Game> {
             child: Stack(
               children: <Widget>[
                 Row(
+                  children: [
+                    Center(
+                      child: SizedBox(
+                        width: 40,
+                        height: 40,
+                        child: Image.asset('lib/images/red_transparent.png'),
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        (bombs - board.flaggedFields).toString(),
+                        style: TextStyle(
+                          fontSize: 20,
+                          shadows: [
+                            Shadow(
+                                offset: Offset.fromDirection(1.1),
+                                blurRadius: 0.1)
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     const Spacer(),
