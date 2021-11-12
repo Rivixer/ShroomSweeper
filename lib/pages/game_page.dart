@@ -33,6 +33,10 @@ class _GameState extends State<Game> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 1,
+        backgroundColor: Colors.brown,
+      ),
       body: Column(
         children: [
           Container(
