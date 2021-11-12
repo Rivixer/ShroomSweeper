@@ -112,6 +112,9 @@ class Board {
     if (_board![row][column].clicked) return;
     _board![row][column].clicked = true;
     _noClickedFields--;
+    if (_board![row][column].flagged) {
+      setFlag(column, row);
+    }
     if (_board![row][column].bombsAround > 0) return;
     if (_board![row][column].hasBomb) return;
     discoverBoard(column + 1, row + 1);
