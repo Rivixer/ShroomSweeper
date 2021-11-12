@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:minesweeper/models/default_levels.dart';
 import '../utils/settings.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -12,6 +13,12 @@ class _SettingsPageState extends State<SettingsPage> {
   int columns = Settings.getColumns();
   int rows = Settings.getRows();
   int bombs = Settings.getBombs();
+
+  void _reloadVariables() {
+    columns = Settings.getColumns();
+    rows = Settings.getRows();
+    bombs = Settings.getBombs();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,47 +95,52 @@ class _SettingsPageState extends State<SettingsPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ElevatedButton(
-                    onPressed: () {
-                      Settings.setColumns(6);
-                      columns = Settings.getColumns();
-                      Settings.setRows(8);
-                      rows = Settings.getRows();
-                      Settings.setBombs(5);
-                      bombs = Settings.getBombs();
-                      setState(() {});
-                    },
-                    child: const Text("ŁATWY"),
-                    style: const ButtonStyle(
-                      alignment: Alignment.center,
-                    )),
-                ElevatedButton(
-                    onPressed: () {
-                      Settings.setColumns(10);
-                      columns = Settings.getColumns();
-                      Settings.setRows(14);
-                      rows = Settings.getRows();
-                      Settings.setBombs(20);
-                      bombs = Settings.getBombs();
-                      setState(() {});
-                    },
-                    child: const Text("ŚREDNI")),
-                ElevatedButton(
-                    onPressed: () {
-                      Settings.setColumns(12);
-                      columns = Settings.getColumns();
-                      Settings.setRows(21);
-                      rows = Settings.getRows();
-                      Settings.setBombs(45);
-                      bombs = Settings.getBombs();
-                      setState(() {});
-                    },
-                    child: const Text("TRUDNY")),
+                _getElevatedButton("ŁATWY"),
+                _getElevatedButton("ŚREDNI"),
+                _getElevatedButton("TRUDNY"),
               ],
             ),
           ],
         ),
       ),
+    );
+  }
+
+  ElevatedButton _getElevatedButton(String level) {
+    ButtonStyle buttonStyle;
+    if (level == "ŁATWY" && EasyLevel().isThisLevel(columns, rows, bombs) ||
+        level == "ŚREDNI" && MediumLevel().isThisLevel(columns, rows, bombs) ||
+        level == "TRUDNY" && HardLevel().isThisLevel(columns, rows, bombs)) {
+      buttonStyle = ElevatedButton.styleFrom(
+        primary: Colors.brown[800],
+        onPrimary: Colors.orange,
+        alignment: Alignment.center,
+      );
+    } else {
+      buttonStyle = ElevatedButton.styleFrom(
+        primary: Colors.orange,
+        onPrimary: Colors.brown[800],
+        alignment: Alignment.center,
+      );
+    }
+    return ElevatedButton(
+      onPressed: () {
+        switch (level) {
+          case "ŁATWY":
+            EasyLevel().setLevel();
+            break;
+          case "ŚREDNI":
+            MediumLevel().setLevel();
+            break;
+          case "TRUDNY":
+            HardLevel().setLevel();
+            break;
+        }
+        _reloadVariables();
+        setState(() {});
+      },
+      child: Text(level),
+      style: buttonStyle,
     );
   }
 }
