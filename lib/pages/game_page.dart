@@ -33,7 +33,7 @@ class _GameState extends State<Game> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
+      body: Column(
         children: [
           Container(
             color: const Color.fromRGBO(255, 255, 255, 0.5),
@@ -83,41 +83,50 @@ class _GameState extends State<Game> {
               ],
             ),
           ),
-          GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: columns,
-              ),
-              itemBuilder: (context, position) {
-                int column = position % columns;
-                int row = position ~/ columns;
+          Expanded(
+            child: ListView(
+              children: [
+                GridView.builder(
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.all(1.0),
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: columns,
+                  ),
+                  itemBuilder: (context, position) {
+                    int column = position % columns;
+                    int row = position ~/ columns;
                     Image image = board.getImage(column, row, inGame: inGame);
 
-                return InkWell(
-                  onTap: () {
-                    if (!inGame) return;
-                    board.discoverBoard(column, row);
-                    if (board.isDefeat(column, row)) {
-                      _handleGameOver();
-                    } else if (board.isWin(column, row)) {
-                      _handleWin();
-                    }
-                    setState(() {});
+                    return InkWell(
+                      onTap: () {
+                        if (!inGame) return;
+                        board.discoverBoard(column, row);
+                        if (board.isDefeat(column, row)) {
+                          board.discoverBoard(column, row);
+                          _handleGameOver();
+                        } else if (board.isWin(column, row)) {
+                          _handleWin();
+                        }
+                        setState(() {});
+                      },
+                      onLongPress: () {
+                        if (!inGame) return;
+                        board.setFlag(column, row);
+                        setState(() {});
+                      },
+                      splashColor: Colors.grey,
+                      child: Container(
+                        color: Colors.grey,
+                        child: image,
+                      ),
+                    );
                   },
-                  onLongPress: () {
-                    if (!inGame) return;
-                    board.setFlag(column, row);
-                    setState(() {});
-                  },
-                  splashColor: Colors.grey,
-                  child: Container(
-                    color: Colors.grey,
-                    child: image,
-                  ),
-                );
-              },
-              itemCount: rows * columns),
+                  itemCount: rows * columns,
+                ),
+              ],
+            ),
+          ),
         ],
       ),
       backgroundColor: Colors.brown,
