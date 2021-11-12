@@ -32,12 +32,25 @@ class _SettingsPageState extends State<SettingsPage> {
         child: Column(
           children: [
             ListTile(
-              leading: const Icon(Icons.label),
-              title: const Text('Kolumny:'),
-              subtitle: Text(columns.toString()),
+              leading: Icon(
+                Icons.label,
+                color: Colors.brown[800],
+              ),
+              title: const Text(
+                'Kolumny:',
+                style: TextStyle(color: Colors.white),
+              ),
+              subtitle: Text(
+                columns.toString(),
+                style: TextStyle(
+                  color: Colors.grey[300],
+                ),
+              ),
             ),
             Slider(
               value: columns.toDouble(),
+              activeColor: Colors.orange,
+              inactiveColor: Colors.grey,
               onChanged: (newValue) {
                 setState(
                   () {
@@ -54,12 +67,25 @@ class _SettingsPageState extends State<SettingsPage> {
               max: 12,
             ),
             ListTile(
-              leading: const Icon(Icons.label),
-              title: const Text('Wiersze:'),
-              subtitle: Text(rows.toString()),
+              leading: Icon(
+                Icons.label,
+                color: Colors.brown[800],
+              ),
+              title: const Text(
+                'Wiersze:',
+                style: TextStyle(color: Colors.white),
+              ),
+              subtitle: Text(
+                rows.toString(),
+                style: TextStyle(
+                  color: Colors.grey[300],
+                ),
+              ),
             ),
             Slider(
               value: rows.toDouble(),
+              activeColor: Colors.orange,
+              inactiveColor: Colors.grey,
               onChanged: (newValue) {
                 setState(() {
                   Settings.setRows(newValue.toInt());
@@ -73,14 +99,27 @@ class _SettingsPageState extends State<SettingsPage> {
               max: 50,
             ),
             ListTile(
-              leading: const Icon(Icons.label),
-              title: const Text('Bomby:'),
-              subtitle: Text(bombs.toString()),
+              leading: Icon(
+                Icons.label,
+                color: Colors.brown[800],
+              ),
+              title: const Text(
+                'Bomby:',
+                style: TextStyle(color: Colors.white),
+              ),
+              subtitle: Text(
+                bombs.toString(),
+                style: TextStyle(
+                  color: Colors.grey[300],
+                ),
+              ),
             ),
             Slider(
               value: bombs < rows * columns ~/ 3
                   ? bombs.toDouble()
                   : (rows * columns ~/ 3).toDouble(),
+              activeColor: Colors.orange,
+              inactiveColor: Colors.grey,
               onChanged: (newValue) {
                 setState(
                   () {
