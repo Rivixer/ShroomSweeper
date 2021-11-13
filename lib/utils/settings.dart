@@ -21,4 +21,9 @@ class Settings {
       await _preferences.setInt('bombs', bombs);
 
   static int getBombs() => _preferences.getInt('bombs') ?? 10;
+
+  static void setUseNumbers(bool value) async =>
+      await _preferences.setBool('useNumbers', value);
+
+  static bool getUseNumbers() => _preferences.getBool('useNumbers') ?? false;
 }
