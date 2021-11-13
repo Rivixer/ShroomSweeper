@@ -2,7 +2,7 @@
     package="com.example.minesweeper">
     <uses-permission android:name="android.permission.VIBRATE"/>
    <application
-        android:label="minesweeper"
+        android:label="ShroomSweeper"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
