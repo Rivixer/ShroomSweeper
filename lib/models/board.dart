@@ -141,7 +141,7 @@ class Board {
       if (!inGame && boardField.hasBomb) {
         return Image.asset('lib/images/noclickedredtoadstool.png');
       }
-      return Image.asset('lib/images/unclicked.png');
+      return Image.asset('lib/images/unclicked${boardField.pngNumber}.png');
     }
     if (boardField.hasBomb) {
       return Image.asset('lib/images/red_toadstool.png');
