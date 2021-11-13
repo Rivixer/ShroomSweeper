@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:minesweeper/utils/settings.dart';
 
 import 'board_field.dart';
 
@@ -133,38 +134,25 @@ class Board {
   }
 
   Image getImage(int column, int row, {bool inGame = false}) {
+    bool useNumbers = Settings.getUseNumbers();
     var boardField = _board![row][column];
+    String folder = 'lib/images/${useNumbers ? "numbers" : "shrooms"}';
     if (!boardField.clicked) {
       if (boardField.flagged) {
-        return Image.asset('lib/images/flag.png');
+        return Image.asset('$folder/flag.png');
       }
       if (!inGame && boardField.hasBomb) {
-        return Image.asset('lib/images/noclickedredtoadstool.png');
+        return Image.asset('$folder/unclicked_bomb.png');
       }
-      return Image.asset('lib/images/unclicked${boardField.pngNumber}.png');
+      return Image.asset(
+          '$folder/unclicked${useNumbers ? "" : boardField.pngNumber}.png');
     }
     if (boardField.hasBomb) {
-      return Image.asset('lib/images/red_toadstool.png');
+      return Image.asset('$folder/clicked_bomb.png');
     }
-    switch (boardField.bombsAround) {
-      case 1:
-        return Image.asset('lib/images/1.png');
-      case 2:
-        return Image.asset('lib/images/2.png');
-      case 3:
-        return Image.asset('lib/images/3.png');
-      case 4:
-        return Image.asset('lib/images/4.png');
-      case 5:
-        return Image.asset('lib/images/5.png');
-      case 6:
-        return Image.asset('lib/images/6.png');
-      case 7:
-        return Image.asset('lib/images/7.png');
-      case 8:
-        return Image.asset('lib/images/8.png');
-      default:
-        return Image.asset('lib/images/clicked.png');
+    if (boardField.bombsAround > 0) {
+      return Image.asset('$folder/${boardField.bombsAround}.png');
     }
+    return Image.asset('$folder/clicked.png');
   }
 }

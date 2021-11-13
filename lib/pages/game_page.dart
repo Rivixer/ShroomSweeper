@@ -52,7 +52,8 @@ class _GameState extends State<Game> {
                       child: SizedBox(
                         width: 40,
                         height: 40,
-                        child: Image.asset('lib/images/red_transparent.png'),
+                        child: Image.asset(
+                            'lib/images/${Settings.getUseNumbers() ? "numbers" : "shrooms"}/transparent_bomb.png'),
                       ),
                     ),
                     Center(
