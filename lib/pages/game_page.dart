@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:minesweeper/utils/settings.dart';
 import 'package:minesweeper/pages/settings_page.dart';
 import '../models/board.dart';
+import 'package:vibration/vibration.dart';
 
 class Game extends StatefulWidget {
   @override
@@ -140,6 +141,7 @@ class _GameState extends State<Game> {
                       },
                       onLongPress: () {
                         if (!inGame) return;
+                        Vibration.vibrate(duration: 25);
                         board.setFlag(column, row);
                         setState(() {});
                       },
