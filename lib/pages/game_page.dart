@@ -79,14 +79,16 @@ class _GameState extends State<Game> {
                         alignment: Alignment.centerRight,
                         icon: const Icon(Icons.settings),
                         onPressed: () async {
-                          await Navigator.push(
+                          final boardChanged = await Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => const SettingsPage(),
                             ),
                           );
                           setState(() {
-                            _initialiseGame();
+                            if (boardChanged) {
+                              _initialiseGame();
+                            }
                           });
                         },
                       ),

@@ -10,14 +10,17 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  bool boardChanged = false;
   int columns = Settings.getColumns();
   int rows = Settings.getRows();
   int bombs = Settings.getBombs();
+  bool useNumbers = Settings.getUseNumbers();
 
   void _reloadVariables() {
     columns = Settings.getColumns();
     rows = Settings.getRows();
     bombs = Settings.getBombs();
+    useNumbers = Settings.getUseNumbers();
   }
 
   @override
@@ -27,6 +30,8 @@ class _SettingsPageState extends State<SettingsPage> {
       appBar: AppBar(
         backgroundColor: Colors.orange,
         title: const Text("Ustawienia"),
+        leading:
+            BackButton(onPressed: () => Navigator.pop(context, boardChanged)),
       ),
       body: Center(
         child: Column(
@@ -56,6 +61,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   () {
                     Settings.setColumns(newValue.toInt());
                     columns = Settings.getColumns();
+                    boardChanged = true;
                     bombs = bombs > rows * columns ~/ 3
                         ? rows * columns ~/ 3
                         : bombs;
@@ -90,6 +96,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 setState(() {
                   Settings.setRows(newValue.toInt());
                   rows = Settings.getRows();
+                  boardChanged = true;
                   bombs =
                       bombs > rows * columns ~/ 3 ? rows * columns ~/ 3 : bombs;
                   Settings.setBombs(bombs);
@@ -123,6 +130,7 @@ class _SettingsPageState extends State<SettingsPage> {
               onChanged: (newValue) {
                 setState(
                   () {
+                    boardChanged = true;
                     Settings.setBombs(newValue.toInt());
                     bombs = Settings.getBombs();
                   },
@@ -138,6 +146,25 @@ class _SettingsPageState extends State<SettingsPage> {
                 _getElevatedButton("ŚREDNI"),
                 _getElevatedButton("TRUDNY"),
               ],
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            SwitchListTile(
+              title: const Text(
+                "Użyj standardowych oznaczeń: ",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              activeColor: Colors.orange,
+              value: useNumbers,
+              onChanged: (bool newValue) {
+                setState(() {
+                  Settings.setUseNumbers(newValue);
+                  useNumbers = Settings.getUseNumbers();
+                });
+              },
             ),
           ],
         ),
