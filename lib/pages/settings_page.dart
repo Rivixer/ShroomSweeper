@@ -42,6 +42,15 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
+  Future<bool> _canChangeValues() async {
+    if (widget.inGame != true || (await showAlert(context) ?? false)) {
+      widget.inGame = null;
+      boardChanged = true;
+      return true;
+    }
+    return false;
+  }
+
   List<Widget> getBoardSetting(
       String title, int value, int min, int max, Function setValue) {
     return [
@@ -66,16 +75,14 @@ class _SettingsPageState extends State<SettingsPage> {
         activeColor: Colors.orange,
         inactiveColor: Colors.grey,
         onChanged: (newValue) async {
-          if (widget.inGame != true || (await showAlert(context) ?? false)) {
-            widget.inGame = null;
+          if (await _canChangeValues()) {
             setState(
               () {
                 setValue(newValue.toInt());
-                _reloadVariables();
-                boardChanged = true;
                 setValue(value);
                 if (bombs > rows * columns ~/ 3) {
                   Settings.setBombs(rows * columns ~/ 3);
+                  _reloadVariables();
                 }
               },
             );
@@ -113,9 +120,12 @@ class _SettingsPageState extends State<SettingsPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      EasyLevel().getButton(_reloadVariables, setState),
-                      MediumLevel().getButton(_reloadVariables, setState),
-                      HardLevel().getButton(_reloadVariables, setState),
+                      EasyLevel().getButton(
+                          _canChangeValues, setState, _reloadVariables),
+                      MediumLevel().getButton(
+                          _canChangeValues, setState, _reloadVariables),
+                      HardLevel().getButton(
+                          _canChangeValues, setState, _reloadVariables),
                     ],
                   ),
                   const SizedBox(

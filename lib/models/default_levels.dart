@@ -15,15 +15,17 @@ class DefaultLevels {
   }
 
   ElevatedButton _getButton(String level, bool thisLevel, Function setLevel,
-      Function reloadVariables, Function setState) {
+      Function canChangeValues, Function setState, Function reloadVariables) {
     return ElevatedButton(
-      onPressed: () {
-        setState(
-          () {
-            setLevel();
-            reloadVariables();
-          },
-        );
+      onPressed: () async {
+        if (await canChangeValues()) {
+          setState(
+            () {
+              setLevel();
+              reloadVariables();
+            },
+          );
+        }
       },
       child: Text(level),
       style: ElevatedButton.styleFrom(
@@ -42,10 +44,11 @@ class EasyLevel extends DefaultLevels {
 
   void setLevel() => _setLevel(columns, rows, bombs);
 
-  ElevatedButton getButton(Function reloadVariables, Function setState) {
+  ElevatedButton getButton(
+      Function canChangeValues, Function setState, Function reloadVariables) {
     bool thisLevel = super._isThisLevel(columns, rows, bombs);
-    return super
-        ._getButton('ŁATWY', thisLevel, setLevel, reloadVariables, setState);
+    return super._getButton('ŁATWY', thisLevel, setLevel, canChangeValues,
+        setState, reloadVariables);
   }
 }
 
@@ -56,10 +59,11 @@ class MediumLevel extends DefaultLevels {
 
   void setLevel() => super._setLevel(columns, rows, bombs);
 
-  ElevatedButton getButton(Function reloadVariables, Function setState) {
+  ElevatedButton getButton(
+      Function canChangeValues, Function setState, Function reloadVariables) {
     bool thisLevel = super._isThisLevel(columns, rows, bombs);
-    return super
-        ._getButton('ŚREDNI', thisLevel, setLevel, reloadVariables, setState);
+    return super._getButton('ŚREDNI', thisLevel, setLevel, canChangeValues,
+        setState, reloadVariables);
   }
 }
 
@@ -70,9 +74,10 @@ class HardLevel extends DefaultLevels {
 
   void setLevel() => super._setLevel(columns, rows, bombs);
 
-  ElevatedButton getButton(Function reloadVariables, Function setState) {
+  ElevatedButton getButton(
+      Function canChangeValues, Function setState, Function reloadVariables) {
     bool thisLevel = super._isThisLevel(columns, rows, bombs);
-    return super
-        ._getButton('TRUDNY', thisLevel, setLevel, reloadVariables, setState);
+    return super._getButton('TRUDNY', thisLevel, setLevel, canChangeValues,
+        setState, reloadVariables);
   }
 }
