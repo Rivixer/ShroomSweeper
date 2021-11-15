@@ -26,4 +26,9 @@ class Settings {
       await _preferences.setBool('useNumbers', value);
 
   static bool getUseNumbers() => _preferences.getBool('useNumbers') ?? false;
+
+  static void setVibration(bool value) async =>
+      await _preferences.setBool('vibration', value);
+
+  static bool getVibration() => _preferences.getBool('vibration') ?? true;
 }

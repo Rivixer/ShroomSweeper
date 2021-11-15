@@ -137,6 +137,21 @@ class _SettingsPageState extends State<SettingsPage> {
                       });
                     },
                   ),
+                  SwitchListTile(
+                    title: const Text(
+                      "Wibracje: ",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                    activeColor: Colors.orange,
+                    value: Settings.getVibration(),
+                    onChanged: (bool newValue) {
+                      setState(() {
+                        Settings.setVibration(newValue);
+                      });
+                    },
+                  ),
                 ],
           ),
         ),
