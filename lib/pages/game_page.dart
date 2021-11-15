@@ -13,7 +13,7 @@ class _GameState extends State<Game> {
   int columns = Settings.getColumns();
   int rows = Settings.getRows();
   int bombs = Settings.getBombs();
-  bool inGame = false;
+  bool? inGame;
   late Board board;
 
   void _initialiseGame() {
@@ -21,7 +21,7 @@ class _GameState extends State<Game> {
     rows = Settings.getRows();
     bombs = Settings.getBombs();
     board = Board(columns, rows, bombs);
-    inGame = true;
+    inGame = null;
     setState(() {});
   }
 
@@ -83,11 +83,13 @@ class _GameState extends State<Game> {
                           final boardChanged = await Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const SettingsPage(),
+                              builder: (context) => SettingsPage(
+                                inGame: inGame,
+                              ),
                             ),
                           );
                           setState(() {
-                            if (boardChanged) {
+                            if (boardChanged ?? false) {
                               _initialiseGame();
                             }
                           });
@@ -128,11 +130,13 @@ class _GameState extends State<Game> {
                   itemBuilder: (context, position) {
                     int column = position % columns;
                     int row = position ~/ columns;
-                    Image image = board.getImage(column, row, inGame: inGame);
+                    Image image =
+                        board.getImage(column, row, inGame: inGame ?? false);
 
                     return InkWell(
                       onTap: () {
-                        if (!inGame) return;
+                        if (inGame == false) return;
+                        inGame ??= true;
                         board.discoverBoard(column, row);
                         if (board.isDefeat(column, row)) {
                           board.discoverBoard(column, row);
@@ -143,7 +147,7 @@ class _GameState extends State<Game> {
                         setState(() {});
                       },
                       onLongPress: () {
-                        if (!inGame) return;
+                        if (inGame == null || inGame == false) return;
                         Vibration.vibrate(duration: 25);
                         board.setFlag(column, row);
                         setState(() {});
