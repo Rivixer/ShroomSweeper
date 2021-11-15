@@ -79,11 +79,10 @@ class _SettingsPageState extends State<SettingsPage> {
             setState(
               () {
                 setValue(newValue.toInt());
-                setValue(value);
                 if (bombs > rows * columns ~/ 3) {
                   Settings.setBombs(rows * columns ~/ 3);
-                  _reloadVariables();
                 }
+                _reloadVariables();
               },
             );
           }
