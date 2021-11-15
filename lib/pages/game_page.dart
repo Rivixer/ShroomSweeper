@@ -5,6 +5,8 @@ import '../models/board.dart';
 import 'package:vibration/vibration.dart';
 
 class Game extends StatefulWidget {
+  const Game({Key? key}) : super(key: key);
+
   @override
   _GameState createState() => _GameState();
 }
