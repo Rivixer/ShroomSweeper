@@ -24,6 +24,8 @@ class Board {
     return _noClickedFields <= _bombsNumber;
   }
 
+  bool isClicked(int column, int row) => _board![row][column].clicked;
+
   void _generateBoard() {
     _board = List.generate(_rowsNumber,
         (_) => (List.generate(_columnsNumber, (_) => BoardField())));
@@ -129,7 +131,6 @@ class Board {
   }
 
   void setFlag(int column, int row) {
-    if (_board![row][column].clicked) return;
     _board![row][column].flagged = !_board![row][column].flagged;
     _board![row][column].flagged ? flaggedFields++ : flaggedFields--;
   }

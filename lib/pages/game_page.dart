@@ -149,7 +149,9 @@ class _GameState extends State<Game> {
                         setState(() {});
                       },
                       onLongPress: () {
-                        if (inGame == null || inGame == false) return;
+                        if (inGame == null ||
+                            inGame == false ||
+                            board.isClicked(column, row)) return;
                         if (Settings.getVibration()) {
                           Vibration.vibrate(duration: 25);
                         }
