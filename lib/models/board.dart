@@ -141,6 +141,9 @@ class Board {
     String folder = 'lib/images/${useNumbers ? "numbers" : "shrooms"}';
     if (!boardField.clicked) {
       if (boardField.flagged) {
+        if (!inGame && !boardField.hasBomb) {
+          return Image.asset('$folder/broken_flag.png');
+        }
         return Image.asset('$folder/flag.png');
       }
       if (!inGame && boardField.hasBomb) {
