@@ -138,10 +138,10 @@ class _GameState extends State<Game> {
                     return InkWell(
                       onTap: () {
                         if (inGame == false) return;
+                        if (board.isFlagged(column, row)) return;
                         inGame ??= true;
                         board.discoverBoard(column, row);
                         if (board.isDefeat(column, row)) {
-                          board.discoverBoard(column, row);
                           _handleGameOver();
                         } else if (board.isWin(column, row)) {
                           _handleWin();
@@ -156,6 +156,16 @@ class _GameState extends State<Game> {
                           Vibration.vibrate(duration: 25);
                         }
                         board.setFlag(column, row);
+                        setState(() {});
+                      },
+                      onDoubleTap: () {
+                        if (!board.isFlagged(column, row)) return;
+                        board.discoverBoard(column, row);
+                        if (board.isDefeat(column, row)) {
+                          _handleGameOver();
+                        } else if (board.isWin(column, row)) {
+                          _handleWin();
+                        }
                         setState(() {});
                       },
                       splashColor: Colors.grey,

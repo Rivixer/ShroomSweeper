@@ -26,6 +26,8 @@ class Board {
 
   bool isClicked(int column, int row) => _board![row][column].clicked;
 
+  bool isFlagged(int column, int row) => _board![row][column].flagged;
+
   void _generateBoard() {
     _board = List.generate(_rowsNumber,
         (_) => (List.generate(_columnsNumber, (_) => BoardField())));
