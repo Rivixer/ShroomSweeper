@@ -29,7 +29,9 @@ class _SettingsPageState extends State<SettingsPage> {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text(
-            'Zmiana wartości spowoduje reset obecnej gry!\nChcesz tego?'),
+          'Zmiana wartości spowoduje reset obecnej gry!\nChcesz tego?',
+          style: TextStyle(fontSize: 14.5),
+        ),
         actions: [
           ElevatedButton(
               onPressed: () => Navigator.pop(context, false),
