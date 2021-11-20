@@ -12,6 +12,7 @@ class Game extends StatefulWidget {
 }
 
 class _GameState extends State<Game> {
+  bool _isSnackBarActivate = false;
   int columns = Settings.getColumns();
   int rows = Settings.getRows();
   int bombs = Settings.getBombs();
@@ -154,6 +155,20 @@ class _GameState extends State<Game> {
     if (inGame == false) return InkWell(child: image);
     if (board.isFlagged(column, row)) {
       return InkWell(
+        onTap: () {
+          const snackBar = SnackBar(
+            content:
+                Text('Kliknij dwukrotnie, by odkryć pole oznaczone flagą!'),
+            duration: Duration(seconds: 3),
+          );
+          if (!_isSnackBarActivate) {
+            _isSnackBarActivate = true;
+            ScaffoldMessenger.of(context)
+                .showSnackBar(snackBar)
+                .closed
+                .then((value) => _isSnackBarActivate = false);
+          }
+        },
         onLongPress: () {
           if (Settings.getVibration()) {
             Vibration.vibrate(duration: 25);
