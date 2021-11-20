@@ -3,8 +3,8 @@ import 'package:minesweeper/models/default_levels.dart';
 import '../utils/settings.dart';
 
 class SettingsPage extends StatefulWidget {
-  late bool? inGame;
-  SettingsPage({Key? key, this.inGame}) : super(key: key);
+  final bool? inGame;
+  const SettingsPage({Key? key, this.inGame}) : super(key: key);
 
   @override
   _SettingsPageState createState() => _SettingsPageState();
@@ -16,6 +16,7 @@ class _SettingsPageState extends State<SettingsPage> {
   int rows = Settings.getRows();
   int bombs = Settings.getBombs();
   bool useNumbers = Settings.getUseNumbers();
+  late bool? inGame = widget.inGame;
 
   void _reloadVariables() {
     columns = Settings.getColumns();
@@ -45,8 +46,8 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Future<bool> _canChangeValues() async {
-    if (widget.inGame != true || (await showAlert(context) ?? false)) {
-      widget.inGame = null;
+    if (inGame != true || (await showAlert(context) ?? false)) {
+      inGame = null;
       boardChanged = true;
       return true;
     }
