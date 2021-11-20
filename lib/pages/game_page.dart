@@ -35,6 +35,12 @@ class _GameState extends State<Game> {
 
   @override
   Widget build(BuildContext context) {
+    Image transparentBomb;
+    if (Settings.getUseNumbers()) {
+      transparentBomb = Image.asset('lib/images/numbers/transparent_bomb.png');
+    } else {
+      transparentBomb = Image.asset('lib/images/shrooms/transparent_bomb.png');
+    }
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 1,
@@ -54,8 +60,7 @@ class _GameState extends State<Game> {
                       child: SizedBox(
                         width: 40,
                         height: 40,
-                        child: Image.asset(
-                            'lib/images/${Settings.getUseNumbers() ? "numbers" : "shrooms"}/transparent_bomb.png'),
+                        child: transparentBomb,
                       ),
                     ),
                     Center(
