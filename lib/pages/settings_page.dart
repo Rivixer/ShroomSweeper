@@ -135,7 +135,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                   SwitchListTile(
                     title: const Text(
-                      "Użyj standardowych oznaczeń: ",
+                      "Motyw klasyczny: ",
                       style: TextStyle(
                         color: Colors.white,
                       ),
