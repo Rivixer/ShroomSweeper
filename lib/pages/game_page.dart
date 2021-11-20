@@ -129,52 +129,7 @@ class _GameState extends State<Game> {
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: columns,
                   ),
-                  itemBuilder: (context, position) {
-                    int column = position % columns;
-                    int row = position ~/ columns;
-                    Image image =
-                        board.getImage(column, row, inGame: inGame ?? false);
-
-                    return InkWell(
-                      onTap: () {
-                        if (inGame == false) return;
-                        if (board.isFlagged(column, row)) return;
-                        inGame ??= true;
-                        board.discoverBoard(column, row);
-                        if (board.isDefeat(column, row)) {
-                          _handleGameOver();
-                        } else if (board.isWin(column, row)) {
-                          _handleWin();
-                        }
-                        setState(() {});
-                      },
-                      onLongPress: () {
-                        if (inGame == null ||
-                            inGame == false ||
-                            board.isClicked(column, row)) return;
-                        if (Settings.getVibration()) {
-                          Vibration.vibrate(duration: 25);
-                        }
-                        board.setFlag(column, row);
-                        setState(() {});
-                      },
-                      onDoubleTap: () {
-                        if (!board.isFlagged(column, row)) return;
-                        board.discoverBoard(column, row);
-                        if (board.isDefeat(column, row)) {
-                          _handleGameOver();
-                        } else if (board.isWin(column, row)) {
-                          _handleWin();
-                        }
-                        setState(() {});
-                      },
-                      splashColor: Colors.grey,
-                      child: Container(
-                        color: Colors.grey,
-                        child: image,
-                      ),
-                    );
-                  },
+                  itemBuilder: (context, position) => _getItemBuilder(position),
                   itemCount: rows * columns,
                 ),
               ],
@@ -183,6 +138,58 @@ class _GameState extends State<Game> {
         ],
       ),
       backgroundColor: Colors.brown,
+    );
+  }
+
+  InkWell _getItemBuilder(position) {
+    int column = position % columns;
+    int row = position ~/ columns;
+    Image image = board.getImage(column, row, inGame: inGame ?? false);
+
+    if (inGame == false) return InkWell(child: image);
+    if (board.isFlagged(column, row)) {
+      return InkWell(
+        onLongPress: () {
+          if (Settings.getVibration()) {
+            Vibration.vibrate(duration: 25);
+          }
+          board.setFlag(column, row);
+          setState(() {});
+        },
+        onDoubleTap: () {
+          board.discoverBoard(column, row);
+          if (board.isDefeat(column, row)) {
+            _handleGameOver();
+          } else if (board.isWin(column, row)) {
+            _handleWin();
+          }
+          setState(() {});
+        },
+        child: image,
+      );
+    }
+    return InkWell(
+      onTap: () {
+        inGame ??= true;
+        board.discoverBoard(column, row);
+        if (board.isDefeat(column, row)) {
+          _handleGameOver();
+        } else if (board.isWin(column, row)) {
+          _handleWin();
+        }
+        setState(() {});
+      },
+      onLongPress: () {
+        if (inGame == null || board.isClicked(column, row)) {
+          return;
+        }
+        if (Settings.getVibration()) {
+          Vibration.vibrate(duration: 25);
+        }
+        board.setFlag(column, row);
+        setState(() {});
+      },
+      child: image,
     );
   }
 
