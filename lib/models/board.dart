@@ -141,25 +141,32 @@ class Board {
     bool useNumbers = Settings.getUseNumbers();
     var boardField = _board![row][column];
     String folder = 'lib/images/${useNumbers ? "numbers" : "shrooms"}';
+
+    Image image(String name) {
+      return Image.asset(
+        '$folder/$name.png',
+        gaplessPlayback: true,
+      );
+    }
+
     if (!boardField.clicked) {
       if (boardField.flagged) {
         if (!inGame && !boardField.hasBomb) {
-          return Image.asset('$folder/broken_flag.png');
+          return image('broken_flag');
         }
-        return Image.asset('$folder/flag.png');
+        return image('flag');
       }
       if (!inGame && boardField.hasBomb) {
-        return Image.asset('$folder/unclicked_bomb.png');
+        return image('unclicked_bomb');
       }
-      return Image.asset(
-          '$folder/unclicked${useNumbers ? "" : boardField.pngNumber}.png');
+      return image('unclicked${useNumbers ? "" : boardField.pngNumber}');
     }
     if (boardField.hasBomb) {
-      return Image.asset('$folder/clicked_bomb.png');
+      return image('clicked_bomb');
     }
     if (boardField.bombsAround > 0) {
-      return Image.asset('$folder/${boardField.bombsAround}.png');
+      return image(boardField.bombsAround.toString());
     }
-    return Image.asset('$folder/clicked.png');
+    return image('clicked');
   }
 }
