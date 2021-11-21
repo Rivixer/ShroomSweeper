@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:minesweeper/models/default_levels.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import '../utils/settings.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -23,6 +24,15 @@ class _SettingsPageState extends State<SettingsPage> {
     rows = Settings.getRows();
     bombs = Settings.getBombs();
     useNumbers = Settings.getUseNumbers();
+  }
+
+  Future<String> _getVersionApp() async {
+    try {
+      var packageInfo = await PackageInfo.fromPlatform();
+      return packageInfo.version;
+    } catch (e) {
+      return 'debug';
+    }
   }
 
   Future<bool?> showAlert(BuildContext context) async {
@@ -165,6 +175,13 @@ class _SettingsPageState extends State<SettingsPage> {
                       });
                     },
                   ),
+                  const Spacer(),
+                  Center(
+                      child: FutureBuilder<String>(
+                    future: _getVersionApp(),
+                    builder: (context, snapshot) =>
+                        Text("Wersja: ${snapshot.data.toString()}"),
+                  ))
                 ],
           ),
         ),
