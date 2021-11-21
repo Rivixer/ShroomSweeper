@@ -86,7 +86,10 @@ class _GameState extends State<Game> {
                     Center(
                       child: IconButton(
                         alignment: Alignment.centerRight,
-                        icon: const Icon(Icons.settings),
+                        icon: const Icon(
+                          Icons.settings,
+                          size: 28,
+                        ),
                         onPressed: () async {
                           final boardChanged = await Navigator.push(
                             context,
