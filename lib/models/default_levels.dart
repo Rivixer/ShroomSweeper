@@ -42,12 +42,12 @@ class EasyLevel extends DefaultLevels {
   int rows = 8;
   int bombs = 5;
 
-  void setLevel() => _setLevel(columns, rows, bombs);
+  void _setEasyLevel() => _setLevel(columns, rows, bombs);
 
   ElevatedButton getButton(
       Function canChangeValues, Function setState, Function reloadVariables) {
     bool thisLevel = super._isThisLevel(columns, rows, bombs);
-    return super._getButton('ŁATWY', thisLevel, setLevel, canChangeValues,
+    return super._getButton('ŁATWY', thisLevel, _setEasyLevel, canChangeValues,
         setState, reloadVariables);
   }
 }
@@ -57,13 +57,13 @@ class MediumLevel extends DefaultLevels {
   int rows = 14;
   int bombs = 20;
 
-  void setLevel() => super._setLevel(columns, rows, bombs);
+  void _setMediumLevel() => super._setLevel(columns, rows, bombs);
 
   ElevatedButton getButton(
       Function canChangeValues, Function setState, Function reloadVariables) {
     bool thisLevel = super._isThisLevel(columns, rows, bombs);
-    return super._getButton('ŚREDNI', thisLevel, setLevel, canChangeValues,
-        setState, reloadVariables);
+    return super._getButton('ŚREDNI', thisLevel, _setMediumLevel,
+        canChangeValues, setState, reloadVariables);
   }
 }
 
@@ -72,12 +72,12 @@ class HardLevel extends DefaultLevels {
   int rows = 21;
   int bombs = 45;
 
-  void setLevel() => super._setLevel(columns, rows, bombs);
+  void _setHardLevel() => super._setLevel(columns, rows, bombs);
 
   ElevatedButton getButton(
       Function canChangeValues, Function setState, Function reloadVariables) {
     bool thisLevel = super._isThisLevel(columns, rows, bombs);
-    return super._getButton('TRUDNY', thisLevel, setLevel, canChangeValues,
+    return super._getButton('TRUDNY', thisLevel, _setHardLevel, canChangeValues,
         setState, reloadVariables);
   }
 }

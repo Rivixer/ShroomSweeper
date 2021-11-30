@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'pages/game_page.dart';
+import 'pages/game_page/game_page.dart';
 import 'utils/settings.dart';
 import 'package:flutter/services.dart';
 

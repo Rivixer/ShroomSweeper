@@ -2,9 +2,9 @@ import 'dart:math';
 
 class BoardField {
   bool hasBomb;
-  int bombsAround;
   bool clicked = false;
   bool flagged = false;
+  int bombsAround;
   int pngNumber = 0;
 
   BoardField({this.hasBomb = false, this.bombsAround = 0}) {

@@ -10,17 +10,17 @@ class Settings {
   static void setColumns(int columns) async =>
       await _preferences.setInt('columns', columns);
 
-  static int getColumns() => _preferences.getInt('columns') ?? 10;
+  static int getColumns() => _preferences.getInt('columns') ?? 6;
 
   static void setRows(int rows) async =>
       await _preferences.setInt('rows', rows);
 
-  static int getRows() => _preferences.getInt('rows') ?? 10;
+  static int getRows() => _preferences.getInt('rows') ?? 8;
 
   static void setBombs(int bombs) async =>
       await _preferences.setInt('bombs', bombs);
 
-  static int getBombs() => _preferences.getInt('bombs') ?? 10;
+  static int getBombs() => _preferences.getInt('bombs') ?? 5;
 
   static void setUseNumbers(bool value) async =>
       await _preferences.setBool('useNumbers', value);

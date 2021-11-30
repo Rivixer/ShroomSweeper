@@ -1,7 +1,4 @@
 import 'dart:math';
-import 'package:flutter/material.dart';
-import 'package:minesweeper/utils/settings.dart';
-
 import 'board_field.dart';
 
 class Board {
@@ -9,7 +6,7 @@ class Board {
   final int _columnsNumber;
   final int _bombsNumber;
   late int _noClickedFields;
-  int flaggedFields = 0;
+  int _flaggedFields = 0;
   bool _bombsGenerated = false;
   List<List<BoardField>>? _board;
 
@@ -20,13 +17,15 @@ class Board {
 
   bool isDefeat(int column, int row) => _board![row][column].hasBomb;
 
-  bool isWin(int column, int row) {
-    return _noClickedFields <= _bombsNumber;
-  }
+  bool isWin(int column, int row) => _noClickedFields <= _bombsNumber;
 
   bool isClicked(int column, int row) => _board![row][column].clicked;
 
   bool isFlagged(int column, int row) => _board![row][column].flagged;
+
+  BoardField getBoardField(int column, int row) => _board![row][column];
+
+  int getFlaggedFieldsNumber() => _flaggedFields;
 
   void _generateBoard() {
     _board = List.generate(_rowsNumber,
@@ -134,39 +133,6 @@ class Board {
 
   void setFlag(int column, int row) {
     _board![row][column].flagged = !_board![row][column].flagged;
-    _board![row][column].flagged ? flaggedFields++ : flaggedFields--;
-  }
-
-  Image getImage(int column, int row, {bool inGame = false}) {
-    bool useNumbers = Settings.getUseNumbers();
-    var boardField = _board![row][column];
-    String folder = 'lib/images/${useNumbers ? "numbers" : "shrooms"}';
-
-    Image image(String name) {
-      return Image.asset(
-        '$folder/$name.png',
-        gaplessPlayback: true,
-      );
-    }
-
-    if (!boardField.clicked) {
-      if (boardField.flagged) {
-        if (!inGame && !boardField.hasBomb) {
-          return image('broken_flag');
-        }
-        return image('flag');
-      }
-      if (!inGame && boardField.hasBomb) {
-        return image('unclicked_bomb');
-      }
-      return image('unclicked${useNumbers ? "" : boardField.pngNumber}');
-    }
-    if (boardField.hasBomb) {
-      return image('clicked_bomb');
-    }
-    if (boardField.bombsAround > 0) {
-      return image(boardField.bombsAround.toString());
-    }
-    return image('clicked');
+    _board![row][column].flagged ? _flaggedFields++ : _flaggedFields--;
   }
 }
